@@ -1,0 +1,87 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Different type of variable:
+```{r}
+var_num <- 5
+var_str <- "hello world"
+var_date <- as.Date("2020-10-10",format = "%Y-%m-%d")
+var_boolean <- F
+```
+
+Work with variables:
+
+Numerics:
+```{r}
+var1 <- var_num +5
+print(var1)
+```
+characters:
+```{r}
+var_str2 <- 'additional'
+var2 <- paste(var_str,var_str2,'wooow',sep =' ')
+print(var2)
+```
+Dates:
+```{r}
+var_date2 <- as.Date("2014-05-05")
+var3 <- var_date - var_date2
+print(var3)
+print(as.numeric(var3))
+```
+Logics and variables:
+
+```{r}
+5<4
+5>4
+'you need everything to be true or false'
+5>4 & 7>10
+5>4 & 7 < 10
+
+'it only takes one to be true'
+5<4 | 7<10
+```
+While loop:
+```{r}
+i = 0
+while (i <= 10) {
+  print(i)
+  i = i+1
+}
+```
+Open scripts
+```{r}
+source(file = "firstScript.R")
+```
+
+To speed up and see how certain behaviors work, you can use the console based on a kind of test to find out how some methods of your code will behave.
+
+
+For loop:
+```{r}
+for (i in 1:5) {
+  print(i)
+}
+
+x = 5
+for (x in 1:x) {
+  print(paste('This is the loop: ',x))
+}
+```
+If:
+```{r}
+if(1<2){
+  print('Its true')
+}else{
+print('its false')
+}
+if(1>2){
+  print('Its true')
+}else{
+print('its false')
+}
+```
+
+
