@@ -1,0 +1,92 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Data Frames:
+```{r}
+db <- read.csv(file = 'DataFrames/proyecto1.csv')
+```
+
+use of $:
+```{r}
+db$pagos_tot[5:30] -> tot_pay
+print(tot_pay)
+```
+
+basics operations with a DF:
+```{r}
+head(db)
+"createa new column"
+db$porc_adeudo <- round(db$adeudo_actual / db$ventas_tot,2)
+head(db)
+```
+OPERATIONS:
+```{r}
+sum(db$ventas_tot)
+"mean credits"
+mean(db$no_cdtos)
+"min credits"
+min(db$no_cdtos)
+```
+
+remove a column:
+```{r}
+db$X1 <-NULL
+head(db)
+```
+(need dplyr installed and working)
+Filter at DF:
+```{r}
+db2 <- filter(db,B_adeudo == 'Con adeudo' & adeudo_actual > 10000 & B_mes == '2020-03-15')
+unique(db2$B_adeudo)
+unique(db$B_adeudo)
+min(db2$adeudo_actual)
+min(db2$fec_ini_cdto)
+```
+
+Qplot:
+```{r}
+qplot(adeudo_actual,no_cdtos,data = db,geom = c('point','line'))
+```
+
+```{r}
+qplot(id_sucursal, data=db,geom='histogram',fill =B_adeudo,bins =30, main='Distribution',xlab = 'Id sucursal',ylab = 'Adeudo total')
+```
+```{r}
+qplot(id_sucursal, data=db,geom='density',color =B_adeudo, main='Distribution',xlab = 'Id sucursal',ylab = 'Adeudo total')
+```
+
+make a DF:
+```{r}
+id_sucursal <- c(0:17,22,37,42,68,97,65,98,36)
+suc <- c('SYS','CDM','VER','LEON','QRO','ECA','PUE','AGS','JAL','GDL','TOL','TIJ','GTO','OAX','TAB','SLP','BCS','PUE','BCN','PUE','BCN','AGS','VER','TOL','GDL','BCS')
+name_suc <- data.frame(id_sucursal,suc)
+```
+
+join DF:
+```{r}
+db_union <- merge(x=db,y=name_suc, by='id_sucursal',all.x = TRUE)
+head(db_union)
+```
+
+
+qplot part2:
+```{r}
+qplot(ventas_tot, data=db_union,geom='histogram',color =B_adeudo, main='Distribution de adeudo por mes',xlab = 'VENTAS TOT',ylab = 'ADEUDO')+ geom_vline(xintercept = mean(db_union$ventas_tot,color ='red'))
+
+```
+```{r}
+"facets separates between two graphs"
+qplot(ventas_tot, data=db_union,geom='histogram',facets =~B_adeudo, main='Distribution de adeudo por mes',xlab = 'VENTAS TOT',ylab = 'ADEUDO')+ geom_vline(xintercept = mean(db_union$ventas_tot,color ='red'))
+
+```
+
+```{r}
+qplot(ventas_tot,no_cdtos,data = db_union, geom ='point')
+```
+
+
+
+
+
