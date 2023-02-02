@@ -1,0 +1,104 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Import the csv
+```{r}
+base_soc <- read.csv(file='DataFrames/base_soc.csv',sep=',')
+head(base_soc)
+```
+
+ Graphic at ggplot:
+```{r}
+ggplot(data = base_soc)+ geom_point(aes(x = venta_trimestral,y=edad,colour = as.factor(id_sucursal)))
+```
+ 
+ Esthetic:
+```{r}
+lty <- c('solid','dashed','dotted','dotdash','longdash','twodash')
+type_lines <- data.frame(y = seq_along(lty),lty=lty)
+type_lines
+```
+```{r}
+ggplot(data = type_lines,aes(x=0,y = y))+ geom_segment(aes(xend = 5,yend = y,linetype = lty))
+```
+ 
+Mapping vs setting:
+```{r}
+ ggplot(data = base_soc,aes(x = edad, y = deuda_act))+ 
+  geom_point(aes(color = tipo_cliente))+
+  xlim(18,75)+
+  scale_color_manual(values = c('yellow','red','green'))
+
+"xlim = the values between which the data will fall"
+"scale_color_manual = to change the colors at the graphics"
+
+```
+
+For categorical variables
+Histograms:
+```{r}
+ggplot(data= base_soc,aes(x = nombre_suc))+
+  geom_bar(stat = 'count',fill = 'white',aes(color = tipo_cliente))
+"fill =color the background of the bars"
+```
+for continuous variables:
+ density graph:
+```{r}
+ggplot(data = base_soc,aes(x = venta_trimestral))+
+  geom_density(stat = 'density',aes(color=tipo_cliente))+
+  xlim(100,20000)
+```
+ 
+ 
+ 
+ statistical transformations:
+```{r}
+ggplot(data = base_soc, aes(x = tipo_cliente))+
+  stat_summary(aes(y = pagos), fun = 'mean',geom = 'bar')
+```
+ 
+ facet wrap & facet grid:
+```{r}
+ggplot(data= base_soc,aes(x = venta_trimestral))+
+  geom_density(stat= 'density',aes(color=tipo_cliente))+
+  facet_wrap(vars(tipo_cliente))
+"vars= this discount is always put, it is by which we will divide our graphs"
+```
+```{r}
+ggplot(data= base_soc,aes(x = venta_trimestral))+
+  geom_density(stat= 'density',aes(color=tipo_cliente))+
+  facet_grid(vars(tipo_cliente))
+```
+ 
+ coordinates:
+```{r}
+ggplot(data = base_soc,aes(x=edad,y=deuda_act))+
+  stat_bin2d(bins = 25,color='white')+
+  coord_cartesian(xlim = c(18,100))
+```
+ 
+ 
+ add themes:
+```{r}
+ ggplot(data= base_soc,aes(x = venta_trimestral))+
+  geom_density(stat = 'density',aes(color= tipo_cliente))+
+  coord_cartesian(xlim= c(100,20000))+
+  scale_colour_manual(values = c('red','blue','orange'))+
+  theme_dark()
+```
+
+
+boxplot:
+```{r}
+ggplot(dat= base_soc,aes(x=nombre_suc, y = edad))+
+  coord_cartesian(ylim = c(18,100))+
+  stat_boxplot(fill= 'white',color='blue')
+```
+```{r}
+ggplot(dat= base_soc,aes(x=nombre_suc, y = edad))+
+  coord_cartesian(ylim = c(18,100))+
+  stat_boxplot(aes(color=tipo_cliente))
+```
+ 
